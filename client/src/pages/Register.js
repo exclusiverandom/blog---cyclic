@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch("/register", {
+    await fetch("register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -20,20 +20,13 @@ mongoose
   .then(() => console.log("connected to db"))
   .catch((err) => console.log(err));
 
+  app.use(express.static(path.join(__dirname, "client/build")));
+  
 app.use(express.json());
 app.use(cors({ credentials: true, origin: "" }));
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
-app.use(express.static(path.join(__dirname, "./client/build")));
-app.get("*", function (_, res) {
-  res.sendFile(
-    path.join(__dirname, "./client/build/index.html"),
-    function (err) {
-      res.status(500).send(err);
-    }
-  );
-});
-
+app.disable("etag");
 app.listen(port, () => {
   console.log(`server is running on port ${port}`);
 });
@@ -257,3 +250,11 @@ app.get("/likedposts",async(req,res)=>{
   }
 })
 
+app.get("*", function (_, res) {
+  res.sendFile(
+    path.join(__dirname, "client/build","index.html"),
+    // function (err) {
+    //   res.status(500).send(err);
+    // }
+  );
+});

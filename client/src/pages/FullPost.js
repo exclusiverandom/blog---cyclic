@@ -10,7 +10,10 @@ export default function FullPost() {
   const [redirect,setRedirect]=React.useState(false)
   const [post, setPost] = React.useState({});
   useEffect(() => {
-    fetch(`/post/${id}`)
+    fetch(`/post/${id}`,{headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }})
       .then((data) => data.json())
       .then((data) => setPost(data));
   }, []);
@@ -18,7 +21,11 @@ export default function FullPost() {
   function deletePost() {
     fetch(`/deletepost/${id}`, {
       method: 'DELETE',
-      credentials: 'include'
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
     })
       .then(data => data.json())
       .then(data => {

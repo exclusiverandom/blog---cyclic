@@ -9,7 +9,10 @@ export default function IndexPage() {
   const [posts, setPosts] = useState([]);
 
   const fetchPosts = () => {
-    fetch("/posts")
+    fetch("/posts",{headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }})
       .then((data) => data.json())
       .then((data) => setPosts(data));
   };

@@ -36,6 +36,10 @@ export default function EditPost() {
             method: "PUT",
             body: data,
             credentials: "include",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+              }
         });
         if (response.ok) {
             setRedirect(true);

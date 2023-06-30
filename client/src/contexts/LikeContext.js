@@ -8,6 +8,10 @@ export default function LikeContextProvider({ children }) {
   useEffect(() => {
     fetch("/likedposts", {
       credentials: "include",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
     })
       .then((data) => data.json())
       .then((data) =>

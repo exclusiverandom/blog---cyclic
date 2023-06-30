@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 export default function MyPosts() {
   const [posts, setPosts] = React.useState([]);
   React.useEffect(() => {
-    fetch("/myPosts", { credentials: "include" })
+    fetch("/myPosts", { credentials: "include",headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    } })
       .then((data) => data.json())
       .then((data) => setPosts(data))
       .then(console.log(posts));

@@ -4,21 +4,29 @@ import { UserContext } from "../contexts/UserContext";
 import { toast } from "react-toastify";
 
 export default function Header() {
-  const {user,setUser}=useContext(UserContext)
+  const { user, setUser } = useContext(UserContext);
   useEffect(() => {
     fetch("/profile", {
       credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
     })
       .then((data) => data.json())
       .then((data) => setUser(data.username));
   }, []);
-  
-  function logout(){
-    fetch('/logout',{
-      credentials:'include'
-    })
-    setUser(null)
-    toast.success('Logout Successfull', {
+
+  function logout() {
+    fetch("/logout", {
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    setUser(null);
+    toast.success("Logout Successfull", {
       position: "top-center",
       autoClose: 2500,
       hideProgressBar: true,
@@ -27,11 +35,11 @@ export default function Header() {
       draggable: true,
       progress: undefined,
       theme: "colored",
-      });
+    });
   }
 
   return (
-    <header style={{display:'flex',flexWrap:'wrap'}}>
+    <header style={{ display: "flex", flexWrap: "wrap" }}>
       <Link to="/" className="logo">
         BlogPoint
       </Link>
@@ -41,7 +49,9 @@ export default function Header() {
             <Link to="/favourite">Favourites</Link>
             <Link to="/myposts">My Posts</Link>
             <Link to="/create">Create Post</Link>
-            <a style={{color:'red',fontWeight:'700'}} onClick={logout}>Logout</a>
+            <a style={{ color: "red", fontWeight: "700" }} onClick={logout}>
+              Logout
+            </a>
           </>
         ) : (
           <>

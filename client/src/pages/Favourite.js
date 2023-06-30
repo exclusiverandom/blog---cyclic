@@ -8,7 +8,10 @@ export default function Favourite() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetch("/likedposts", { credentials: "include" })
+    fetch("/likedposts", { credentials: "include",headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    } })
       .then((data) => data.json())
       .then((data) => setPosts(data));
   }, [likedPosts]);
