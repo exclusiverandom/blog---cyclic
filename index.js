@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
 const uploadMiddleware = multer({ dest: "uploads/" });
-const fs = require("fs");
+const fs = require("@cyclic.sh/s3fs")(process.env.CYCLIC_BUCKET_NAME)
 const Post = require("./models/postModel");
 const path = require("path");
 
