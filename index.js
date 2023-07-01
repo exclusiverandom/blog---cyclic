@@ -87,10 +87,10 @@ app.get("/logout", (req, res) => {
 
 app.post("/createPost", uploadMiddleware.single("image"), async (req, res) => {
   const { path, originalname } = req.file;
-  const parts = originalname.split(".");
-  const extension = parts[parts.length - 1];
-  const newpath = `${path}.${extension}`;
-  fs.renameSync(path, newpath);
+  // const parts = originalname.split(".");
+  // const extension = parts[parts.length - 1];
+  // const newpath = `${path}.${extension}`;
+  // fs.renameSync(path, newpath);
 
   const token = req.cookies.token;
   try {
@@ -101,7 +101,7 @@ app.post("/createPost", uploadMiddleware.single("image"), async (req, res) => {
       title,
       summary,
       content,
-      image: newpath,
+      image: path,
       author: username,
       likedBy: [],
     });
@@ -124,10 +124,10 @@ app.get("/post/:id", async (req, res) => {
 
 app.put("/editpost", uploadMiddleware.single("image"), async (req, res) => {
   const { path, originalname } = req.file;
-  const parts = originalname.split(".");
-  const extension = parts[parts.length - 1];
-  const newpath = `${path}.${extension}`;
-  fs.renameSync(path, newpath);
+  // const parts = originalname.split(".");
+  // const extension = parts[parts.length - 1];
+  // const newpath = `${path}.${extension}`;
+  // fs.renameSync(path, newpath);
 
   const token = req.cookies.token;
   try {
