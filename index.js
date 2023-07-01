@@ -85,7 +85,7 @@ app.get("/logout", (req, res) => {
   res.json({ message: "logged out" });
 });
 
-app.post("/createPost", uploadMiddleware.single("image"), (req, res) => {
+app.post("/createPost", uploadMiddleware.single("image"), async (req, res) => {
   const { path, originalname } = req.file;
   const parts = originalname.split(".");
   const extension = parts[parts.length - 1];
@@ -105,7 +105,7 @@ app.post("/createPost", uploadMiddleware.single("image"), (req, res) => {
       author: username,
       likedBy: [],
     });
-    newPost.save();
+    await newPost.save();
     res.json(newPost);
   } catch (error) {
     res.status(400).json({ message: "invalid token" });
