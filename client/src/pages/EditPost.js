@@ -88,7 +88,7 @@ export default function EditPost() {
             />
             <input type="file" accept='.jpeg, .png, .jpg' onChange={(e) => handleFileUpload(e)} />
             <Editor value={content} onChange={setContent} />
-            <button type="submit" style={{ marginTop: "15px" }}>
+            <button className="btn-style" type="submit" style={{ marginTop: "15px" }}>
                 Edit Post
             </button>
         </form>

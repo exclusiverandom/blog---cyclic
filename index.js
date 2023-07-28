@@ -22,7 +22,8 @@ mongoose
 
   app.use(express.static(path.join(__dirname, "client/build")));
   
-app.use(express.json());
+  app.use(express.json({ limit: '10mb' })); // Increase the limit to 1 MB for JSON
+  app.use(express.urlencoded({ limit: '10mb', extended: true })); // Increase the limit to 1 MB for URL-encoded
 app.use(cors({ credentials: true, origin: "" }));
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
