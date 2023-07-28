@@ -11,7 +11,6 @@ export default function FullPost() {
   const [post, setPost] = React.useState({});
   useEffect(() => {
     fetch(`/post/${id}`,{headers: {
-      'Accept': 'application/json',
       'Content-Type': 'application/json',
     }})
       .then((data) => data.json())
@@ -70,7 +69,7 @@ export default function FullPost() {
     )}
       <img
         className="banner-img"
-        src={`/${post.image}`}
+        src={post.image}
         alt="post"
       />
       <div

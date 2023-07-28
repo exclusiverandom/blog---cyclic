@@ -93,7 +93,7 @@ export default function Post({
   return (
     <div className="post">
       <Link to={`/post/${_id}`}>
-        <img src={"/" + image} alt="post" />
+        <img src={image} alt="post" />
       </Link>
       <div className="post-content">
         <div className="headnlike">

@@ -15,14 +15,13 @@ export default function CreatePost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("title", title);
-    data.append("summary", summary);
-    data.append("content", content);
-    data.append("image", image[0]);
+    
     const response = await fetch("/createPost", {
       method: "POST",
-      body: data,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({title,summary,content,image}),
       credentials: "include",
 
     });
@@ -40,6 +39,26 @@ export default function CreatePost() {
         });
     }
   };
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    const base64 = await convertToBase64(file);
+    console.log(base64)
+    setImage(base64 )
+  }
+
+  function convertToBase64(file){
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result)
+      };
+      fileReader.onerror = (error) => {
+        reject(error)
+      }
+    })
+  }
 
   if (!user) {
     return <Navigate to={"/login"} />;
@@ -63,7 +82,7 @@ export default function CreatePost() {
         type="text"
         placeholder="Summary"
       />
-      <input type="file" onChange={(e) => setImage(e.target.files)} />
+      <input type="file" accept='.jpeg, .png, .jpg' onChange={(e) => handleFileUpload(e)} />
       <Editor value={content} onChange={setContent} />
       <button className="btn-style" type="submit" style={{ marginTop: "15px" }}>
         Create Post

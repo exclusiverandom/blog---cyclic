@@ -22,14 +22,8 @@ const postSchema=new mongoose.Schema({
     },
     likedBy:[{
         type:String,
-        unique:true
-    }],
-    // likedBy: [
-    //     {
-    //       type: mongoose.Schema.Types.ObjectId,
-    //       ref: "User",
-    //     },
-    //   ],
+        // unique:true
+    }]
 },{
     timestamps:true
 })

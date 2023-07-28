@@ -7,8 +7,8 @@ const User = require("./models/userModel");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
-const uploadMiddleware = multer({ dest: "uploads/" });
-const fs = require("@cyclic.sh/s3fs")(process.env.CYCLIC_BUCKET_NAME)
+// const uploadMiddleware = multer({ dest: "uploads/" });
+// const fs = require("@cyclic.sh/s3fs")(process.env.CYCLIC_BUCKET_NAME)
 const Post = require("./models/postModel");
 const path = require("path");
 
@@ -85,29 +85,26 @@ app.get("/logout", (req, res) => {
   res.json({ message: "logged out" });
 });
 
-app.post("/createPost", uploadMiddleware.single("image"), async (req, res) => {
-  const { path, originalname } = req.file;
-  // const parts = originalname.split(".");
-  // const extension = parts[parts.length - 1];
-  // const newpath = `${path}.${extension}`;
-  // fs.renameSync(path, newpath);
+app.post("/createPost", async (req, res) => {
+
 
   const token = req.cookies.token;
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     const { username } = payload;
-    const { title, summary, content } = req.body;
+    const { title, summary, content,image } = req.body;
     const newPost = new Post({
       title,
       summary,
       content,
-      image: path,
+      image,
       author: username,
-      likedBy: [],
+      likedBy: []
     });
     await newPost.save();
     res.json(newPost);
   } catch (error) {
+    console.log(error)
     res.status(400).json({ message: "invalid token" });
   }
 });
@@ -122,32 +119,28 @@ app.get("/post/:id", async (req, res) => {
   res.json(post);
 });
 
-app.put("/editpost", uploadMiddleware.single("image"), async (req, res) => {
-  const { path, originalname } = req.file;
-  // const parts = originalname.split(".");
-  // const extension = parts[parts.length - 1];
-  // const newpath = `${path}.${extension}`;
-  // fs.renameSync(path, newpath);
+app.put("/editpost", async (req, res) => {
 
   const token = req.cookies.token;
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     const { username } = payload;
-    const { title, summary, content, id } = req.body;
+    const { title, summary, content,image, id } = req.body;
+    console.log("-------------------------------------------------------------------")
+    console.log(image)
     const post = await Post.findById(id);
     if (post.author === username) {
-      let oldpath = post.image;
       post.title = title;
       post.summary = summary;
       post.content = content;
-      post.image = newpath;
+      post.image = image;
       post.save();
-      fs.unlinkSync(oldpath);
       res.json(post);
     } else {
       res.status(400).json({ message: "invalid token" });
     }
   } catch (error) {
+    console.log(error)
     res.status(400).json({ message: "invalid token" });
   }
 });
@@ -178,7 +171,6 @@ app.delete("/deletepost/:id", async (req, res) => {
       const { username } = payload;
       const post = await Post.findById(req.params.id);
       if (post.author === username) {
-        fs.unlinkSync(post.image);
         post.deleteOne();
         res.json({ message: "post deleted" });
       } else {
