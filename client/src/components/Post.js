@@ -92,7 +92,7 @@ export default function Post({
 
   return (
     <div className="post">
-      <Link to={`/post/${_id}`}>
+      <Link to={`/fullpost/${_id}`}>
         <img src={image} alt="post" />
       </Link>
       <div className="post-content">
@@ -114,7 +114,7 @@ export default function Post({
           <time>{formatISO9075(new Date(createdAt))}</time>
         </p>
         <p>{summary}</p>
-        <Link to={`/post/${_id}`} className="post-link">
+        <Link to={`/fullpost/${_id}`} className="post-link">
           READ MORE
         </Link>
       </div>
